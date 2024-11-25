@@ -129,7 +129,6 @@ func initializeArgs() {
 		os.Exit(1)
 	}
 
-
 	fmt.Println("----------------------------------------")
 	fmt.Println("Beginning test...")
 	fmt.Printf("Prisoner count: %d\n", *prisonerCount)
