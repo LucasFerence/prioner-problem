@@ -7,7 +7,10 @@ import (
 
 type stats struct {
 	name         string
+
 	trackingStart time.Time
+	trackingDuration time.Duration
+
 	accumulators []accumulator
 	opChan       chan *operation
 	done         chan bool
@@ -26,6 +29,7 @@ func defaultAccumulators() []accumulator {
 	accumulators := []accumulator{}
 
 	accumulators = append(accumulators, &movingAverage{0, 0})
+	accumulators = append(accumulators, &durationSum{0})
 
 	return accumulators
 }
@@ -38,7 +42,10 @@ func Track(name string) *stats {
 
 	stats := stats{
 		name,
+
 		time.Now(),
+		0,
+
 		defaultAccumulators(),
 		make(chan *operation, 100),
 		make(chan bool),
@@ -63,13 +70,18 @@ func Track(name string) *stats {
 Complete the tracking for this instance of stats
 */
 func (s *stats) EndTracking() {
-	trackingDur := time.Now().Sub(s.trackingStart)
+	s.trackingDuration = time.Now().Sub(s.trackingStart)
 
 	close(s.opChan)
 	<-s.done
+}
 
+/*
+Output the report of the stats to stdout
+*/
+func (s *stats) PrintReport() {
 	// generate the report for all accumulators
-	fmt.Printf("Completed tracking for [%s] over time [%v]\n", s.name, trackingDur)
+	fmt.Printf("Completed tracking for [%s] over time [%v]\n", s.name, s.trackingDuration)
 	for _, col := range s.accumulators {
 		col.report()
 	}

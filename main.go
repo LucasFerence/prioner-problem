@@ -36,7 +36,7 @@ func tryStrategy(name string, strat strategy) {
 
 	stat.EndTracking()
 
-	fmt.Println("------------------------------------------------------")
+	stat.PrintReport()
 	fmt.Printf("Strategy [%s]: Success count [%d] over [%d] attempts. Average: [%f]\n", name, successCount, *numAttempts, avgSuccess)
 	fmt.Println("------------------------------------------------------")
 }

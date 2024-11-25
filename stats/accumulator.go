@@ -30,3 +30,17 @@ func (acc *movingAverage) report() {
 	avgDurMs := acc.avgTime / float64(time.Millisecond)
 	fmt.Printf("Average time of [%d] operations: [%f ms]\n", acc.opCount, avgDurMs)
 }
+
+// --- Operation Sum ---
+
+type durationSum struct {
+	durSum time.Duration
+}
+
+func (acc *durationSum) receive(op *operation) {
+	acc.durSum += op.duration()
+}
+
+func (acc *durationSum) report() {
+	fmt.Printf("Total duration of all operations: [%v]\n", acc.durSum)
+}
