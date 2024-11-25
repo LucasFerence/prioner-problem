@@ -28,7 +28,7 @@ func (acc *movingAverage) receive(op *operation) {
 
 func (acc *movingAverage) report() {
 	avgDurMs := acc.avgTime / float64(time.Millisecond)
-	fmt.Printf("Average time of [%d] operations: [%f ms]\n", acc.opCount, avgDurMs)
+	fmt.Printf("Average time of [%d] operations: [%fms]\n", acc.opCount, avgDurMs)
 }
 
 // --- Operation Sum ---
