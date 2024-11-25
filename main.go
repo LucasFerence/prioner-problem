@@ -34,11 +34,10 @@ func tryStrategy(name string, strat strategy) {
 
 	avgSuccess := float64(successCount) / float64(*numAttempts)
 
-	fmt.Println("------------------------------------------------------")
-	fmt.Printf("Strategy [%s]: Success count [%d] over [%d] attempts. Average: [%f]\n", name, successCount, *numAttempts, avgSuccess)
-
 	stat.EndTracking()
 
+	fmt.Println("------------------------------------------------------")
+	fmt.Printf("Strategy [%s]: Success count [%d] over [%d] attempts. Average: [%f]\n", name, successCount, *numAttempts, avgSuccess)
 	fmt.Println("------------------------------------------------------")
 }
 
