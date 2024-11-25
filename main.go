@@ -12,15 +12,35 @@ import (
 type strategy = func() bool
 
 // Execution flags
-var numAttempts = flag.Int("n", 1000000, "Specify attempt count for each strategy")
-var prisonerCount = flag.Int("p", 100, "Amount of prisoners to test against")
-var boxAllowance = flag.Int("b", 50, "Amount of boxes a prisoner can check")
+var (
+	numAttempts = flag.Int("n", 1000000, "Specify attempt count for each strategy")
+	prisonerCount = flag.Int("p", 100, "Amount of prisoners to test against")
+	boxAllowance = flag.Int("b", 50, "Amount of boxes a prisoner can check")
+)
 
 func main() {
 	initializeArgs()
 
 	tryStrategy("Naive", naive)
 	tryStrategy("Smart", smart)
+}
+
+func initializeArgs() {
+
+	flag.Parse()
+
+	// verify args
+	if *boxAllowance > *prisonerCount {
+		fmt.Printf("ERROR! Box allowance [%d] out of bounds!\n", *boxAllowance)
+		os.Exit(1)
+	}
+
+	fmt.Println("----------------------------------------")
+	fmt.Println("Beginning test...")
+	fmt.Printf("Prisoner count: %d\n", *prisonerCount)
+	fmt.Printf("Box allowance: %d\n", *boxAllowance)
+	fmt.Printf("Test executions: %d\n", *numAttempts)
+	fmt.Println("----------------------------------------")
 }
 
 func tryStrategy(name string, strat strategy) {
@@ -117,22 +137,4 @@ func createShuffled() []int {
 	}
 
 	return list
-}
-
-func initializeArgs() {
-
-	flag.Parse()
-
-	// verify args
-	if *boxAllowance > *prisonerCount {
-		fmt.Printf("ERROR! Box allowance [%d] out of bounds!\n", *boxAllowance)
-		os.Exit(1)
-	}
-
-	fmt.Println("----------------------------------------")
-	fmt.Println("Beginning test...")
-	fmt.Printf("Prisoner count: %d\n", *prisonerCount)
-	fmt.Printf("Box allowance: %d\n", *boxAllowance)
-	fmt.Printf("Test executions: %d\n", *numAttempts)
-	fmt.Println("----------------------------------------")
 }
