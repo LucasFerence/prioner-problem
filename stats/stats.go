@@ -63,10 +63,10 @@ func Track(name string) *stats {
 Complete the tracking for this instance of stats
 */
 func (s *stats) EndTracking() {
+	trackingDur := time.Now().Sub(s.trackingStart)
+
 	close(s.opChan)
 	<-s.done
-
-	trackingDur := time.Now().Sub(s.trackingStart)
 
 	// generate the report for all accumulators
 	fmt.Printf("Completed tracking for [%s] over time [%v]\n", s.name, trackingDur)
