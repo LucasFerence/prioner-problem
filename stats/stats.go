@@ -6,9 +6,9 @@ import (
 )
 
 type stats struct {
-	name         string
+	name string
 
-	trackingStart time.Time
+	trackingStart    time.Time
 	trackingDuration time.Duration
 
 	accumulators []accumulator
